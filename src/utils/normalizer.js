@@ -198,18 +198,50 @@ function isCleanTrack(artist, title, negativeKeywords = [], bannedArtists = []) 
     return false;
   }
 
-  // 5. Reject amateur bedroom aesthetic (all-lowercase artist OR all-lowercase title)
-  const isArtistAllLower = a === a.toLowerCase() && /[a-z]/.test(a);
-  const isTitleAllLower = t === t.toLowerCase() && /[a-z]/.test(t);
-  if (isArtistAllLower && isTitleAllLower) {
+  // 5. EveryNoise / AllMusic Clean Character Whitelist:
+  // Allows strictly standard English letters, numbers, spaces, and clean punctuation (', -, ., ,, !, ?, &)
+  const cleanCharWhitelist = /^[A-Za-z0-9\s'\-.,!?&()"]+$/;
+  if (!cleanCharWhitelist.test(a) || !cleanCharWhitelist.test(t)) {
     return false;
   }
-  // Professional releases capitalize song titles; reject all-lowercase titles (e.g. "black cockatoo", "now youre mine")
-  if (isTitleAllLower) {
+  // Reject ugly symbols (_ / \ | @ # ~ + $ % ^ * { } [ ])
+  if (/[\/\\|@#~$%^*_{}\[\]]/g.test(fullText)) {
     return false;
   }
 
-  // 6. Reject pseudo-stylized character/number substitutions (e.g. "Cold MØde", "lyc4n", "13kjohny", "k0vertessence")
+  // 6. Professional Capitalization Rule:
+  // Title must start with a capital letter, number, or quote
+  if (!/^[A-Z0-9"“'‘]/.test(t)) {
+    return false;
+  }
+  // Reject all-lowercase titles (e.g. "black cockatoo", "now youre mine")
+  if (t === t.toLowerCase()) {
+    return false;
+  }
+  // Reject long all-caps screaming titles (e.g. "FEEL IT TOO I WISH YOU FELT IT")
+  if (t === t.toUpperCase() && t.length > 6 && t.includes(' ')) {
+    return false;
+  }
+
+  // 7. Strict Length & Word Count (Concise, authentic indie songs):
+  const titleWords = t.split(/\s+/).filter(Boolean);
+  const artistWords = a.split(/\s+/).filter(Boolean);
+  if (titleWords.length < 1 || titleWords.length > 6) {
+    return false;
+  }
+  if (artistWords.length < 1 || artistWords.length > 5) {
+    return false;
+  }
+  if (t.length < 2 || t.length > 45) return false;
+  if (a.length < 2 || a.length > 40) return false;
+
+  // 8. No Unresolved Parentheticals or Brackets:
+  // Pure titles like "Confident", "Any Minute Now", "Unforgettable Love" do not carry parenthetical junk
+  if (/[()\[\]{}]/.test(t)) {
+    return false;
+  }
+
+  // 9. Reject pseudo-stylized character/number substitutions (e.g. "Cold MØde", "lyc4n", "13kjohny", "k0vertessence")
   if (/[A-Za-z]+[Øø][A-Za-z]+/i.test(fullText) || /\b[A-Za-z]*[Øø][A-Za-z]*\b/.test(a)) {
     return false;
   }
@@ -217,7 +249,7 @@ function isCleanTrack(artist, title, negativeKeywords = [], bannedArtists = []) 
     return false;
   }
 
-  // 7. Reject internet slang, unspaced run-on words, sound edits, and textisms
+  // 10. Reject internet slang, unspaced run-on words, sound edits, and textisms
   const slangPatterns = [
     /\b(ur|pls|plz|thx|imma|gimme|wanna|idk|ngl|tbh|saddisfaction)\b/i,
     /\b(youre|dont|cant|wont|didnt|couldnt|shouldnt|isnt|arent)\b/i, // missing apostrophe in title
@@ -230,23 +262,10 @@ function isCleanTrack(artist, title, negativeKeywords = [], bannedArtists = []) 
     return false;
   }
 
-  // 8. Reject excessively long, convoluted, or run-on concatenated titles (e.g. "b side tramps The Goddess...")
-  const titleWords = t.split(/\s+/).filter(Boolean);
-  if (titleWords.length > 7) {
-    return false;
-  }
-  if (t.length > 55) {
-    return false;
-  }
-
   // Reject redundant artist name repeated inside title
   if (t.toLowerCase().includes(a.toLowerCase())) {
     return false;
   }
-
-  // 9. Must have a sensible length and clean characters
-  if (t.length < 2 || t.length > 55) return false;
-  if (a.length < 2 || a.length > 50) return false;
 
   return true;
 }
