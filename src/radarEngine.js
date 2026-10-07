@@ -65,7 +65,10 @@ async function runDailyRadar(options = {}) {
   const seenSlugsInBatch = new Set();
 
   const artistCounts = new Map();
+  const channelCounts = new Map();
   const MAX_TRACKS_PER_ARTIST = config.maxTracksPerArtist || 2;
+  const MAX_SOUNDCLOUD_TRACKS = config.maxSoundCloudTracks || 5;
+  const MAX_TRACKS_PER_CHANNEL = config.maxTracksPerChannel || 8;
 
   for (const item of rawCandidates) {
     if (!item.artist || !item.title) continue;
@@ -90,7 +93,17 @@ async function runDailyRadar(options = {}) {
       continue;
     }
 
-    // D. Master Database Recycled Single Check
+    // D. Limit channel quota so high-velocity direct-upload platforms (SoundCloud) don't dominate the briefing
+    const channelKey = item.channel.toLowerCase();
+    const isSoundCloud = channelKey.includes('soundcloud');
+    const channelCap = isSoundCloud ? MAX_SOUNDCLOUD_TRACKS : MAX_TRACKS_PER_CHANNEL;
+    const currentChannelCount = channelCounts.get(channelKey) || 0;
+    if (currentChannelCount >= channelCap) {
+      console.log(`  [x] Capped Channel Quota: "${item.artist} - ${item.title}" [${item.channel}] (Exceeds ${channelCap} daily limit)`);
+      continue;
+    }
+
+    // E. Master Database Recycled Single Check
     const evaluation = evaluateCandidateTrack(item, item.channel, { isDryRun });
 
     if (evaluation.isRecycledSingle) {
@@ -104,6 +117,7 @@ async function runDailyRadar(options = {}) {
       if (!seenSlugsInBatch.has(batchKey)) {
         seenSlugsInBatch.add(batchKey);
         artistCounts.set(artistKey, currentArtistCount + 1);
+        channelCounts.set(channelKey, currentChannelCount + 1);
         passedNewReleases.push({
           ...item,
           heatScore: evaluation.heatScore,

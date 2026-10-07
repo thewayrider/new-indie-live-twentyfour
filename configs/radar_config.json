@@ -3,6 +3,9 @@
   "description": "Autonomous 24-Hour Open-Web Radar for Real-Time Indie Rock Releases",
   "maxRecencyHours": 36,
   "recycledSingleWindowDays": 7,
+  "maxSoundCloudTracks": 5,
+  "maxTracksPerChannel": 8,
+  "maxTracksPerArtist": 2,
   "targetGenres": [
     "indie rock",
     "post-punk",
