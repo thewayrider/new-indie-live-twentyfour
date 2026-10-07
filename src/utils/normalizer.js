@@ -155,6 +155,26 @@ function isCleanTrack(artist, title, negativeKeywords = [], bannedArtists = []) 
     return false;
   }
 
+  // 3b. Reject non-English specific characters (Turkish ğ, ı, ş, Portuguese ã, õ)
+  if (/[ğĞıİşŞãõ]/i.test(fullText)) {
+    return false;
+  }
+
+  // 3c. Reject clear non-English titles (French, Spanish, Portuguese, Turkish stopwords and phrases)
+  const foreignLanguagePhrases = [
+    // French phrases & vocabulary
+    /\b(quand\s+tu|quand\s+passes|c'est|dans\s+la|avec\s+toi|pour\s+moi|sur\s+la|les\s+yeux|je\s+suis|tu\s+es|mon\s+amour|au\s+revoir|sans\s+toi|d'un|d'une|l'amour|quand\s+tu\s+passes)\b/i,
+    // Spanish & Portuguese phrases & vocabulary
+    /\b(vizinha|gostosa|virado|dias\s+virado|corazon|te\s+quiero|para\s+ti|por\s+favor|sin\s+ti|todo\s+el|lo\s+que|el\s+amor|la\s+vida|los\s+ojos|nada\s+mas|que\s+te|yo\s+no|esta\s+noche|del\s+sur|una\s+vez|dias\s+virado)\b/i,
+    // Turkish vocabulary
+    /\b(dikenli|değilsin|degilsin|benim|senin|icin|için|nasıl|gibi|kadar|çünkü|böyle|radyo|şarkı|dünya|tel)\b/i,
+    // Brazilian Funk & Latin club edits
+    /\b(mc\s+[a-z]|speed\s*\+|speed\s*\+\s*grave|grave|mtg|funk\s*bh|funk\s*rj|brega|piseiro)\b/i
+  ];
+  if (foreignLanguagePhrases.some(rgx => rgx.test(fullText))) {
+    return false;
+  }
+
   // 4. Reject negative keywords in artist or title
   if (hasNegativeKeywords(fullText, negativeKeywords)) return false;
 

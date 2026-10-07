@@ -12,7 +12,8 @@ Every release candidate must conform to the pure **`(Artist Name) — (Song Name
 - **No Features / Collaborations**: Discard `feat.`, `ft.`, `featuring`, and `with [Artist]` tracks (preserves original compositions).
 - **No Mixes / Covers / Live Cuts**: Discard `remix`, `re-mix`, `rmx`, `vip mix`, `club mix`, `cover version`, `live @`, `live at`, `session`, `reissue`, `deluxe`, and `remaster`.
 - **No Video / Blog Clutter**: Strip and reject `[Official Music Video]`, `(Lyric Video)`, `(Short Film)`, `| Album Review`, `| Post-Trash Premiere`, `[4K]`, etc.
-- **Language / Script Mandate**: English / Latin-1 Western alphabet only (`^[\x20-\x7E\u00C0-\u017F]+$`). Automatically reject non-Western scripts (Vietnamese, Cyrillic, Asian scripts, Arabic, emojis).
+- **Language / Script Mandate**: English only. Reject non-Western scripts (Vietnamese, Cyrillic, Asian scripts, Arabic, emojis) and non-English specific characters (Turkish ğ/ı/ş, Portuguese ã/õ).
+- **Foreign Language Stopword Filter**: Rejects French, Spanish, Portuguese, Turkish, and Brazilian funk phrasing (`quand tu passes`, `vizinha gostosa`, `3 dias virado`, `dikenli tel`, `MC [Name]`, `speed + grave`).
 - **No All-Lowercase Bedroom Aesthetic**: Reject amateur entries where both artist and title are all-lowercase (e.g. `caspers pishogue — now youre mine`, `mori — god complex`).
 - **No Bad Grammar / Internet Slang / Run-on Words**: Reject textisms (`ur`, `pls`, `thx`, `idk`, `ngl`, `saddisfaction`), missing contraction apostrophes (`youre`, `dont`, `cant`), and unspaced run-on words (`onmyfrontdresser`).
 - **No Pseudo-Stylized / L33tspeak Spelling**: Reject character/vowel swaps (e.g. `Cold MØde`, `lyc4n`, `13kjohny`, `k0vertessence`).
