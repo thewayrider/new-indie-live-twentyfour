@@ -84,8 +84,7 @@ class FleetManager {
 
   _detectSiblingFleets() {
     const candidatePaths = [
-      { id: 'weekly-crawler', name: 'Weekly Music Search Fleet', path: path.join(this.parentDir, 'live-music-search-agent') },
-      { id: 'pulse-kl-scraper', name: 'PulseKL SoundCloud/BandCamp Fleet', path: path.join(this.parentDir, 'PlulseKL-SoundCloud-BandCamp-scraper') }
+      { id: 'weekly-crawler', name: 'Weekly Music Search Fleet', path: path.join(this.parentDir, 'live-music-search-agent') }
     ];
 
     for (const cand of candidatePaths) {
