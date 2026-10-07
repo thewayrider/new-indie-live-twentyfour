@@ -1,0 +1,57 @@
+{
+  "radarName": "New Indie Live 24",
+  "description": "Autonomous 24-Hour Open-Web Radar for Real-Time Indie Rock Releases",
+  "maxRecencyHours": 36,
+  "recycledSingleWindowDays": 7,
+  "targetGenres": [
+    "indie rock",
+    "post-punk",
+    "garage rock",
+    "jangle pop",
+    "alt rock",
+    "alternative rock",
+    "dream pop",
+    "shoegaze",
+    "indie pop",
+    "surf rock",
+    "indie"
+  ],
+  "channels": {
+    "bandcamp": {
+      "enabled": true,
+      "locations": [
+        { "name": "Melbourne", "geonameId": 2158177, "country": "Australia" },
+        { "name": "Sydney", "geonameId": 2147714, "country": "Australia" },
+        { "name": "Brisbane", "geonameId": 2174003, "country": "Australia" },
+        { "name": "Auckland", "geonameId": 2193733, "country": "New Zealand" },
+        { "name": "Dublin", "geonameId": 2964574, "country": "Ireland" },
+        { "name": "London", "geonameId": 2643743, "country": "UK" }
+      ],
+      "tags": ["indie-rock", "post-punk", "garage-rock", "jangle-pop", "alternative-rock"]
+    },
+    "musicbrainz": {
+      "enabled": true,
+      "targetTags": ["indie rock", "post-punk", "alternative rock", "dream pop"]
+    },
+    "blogs": {
+      "enabled": true,
+      "feeds": [
+        { "name": "Post-Trash", "url": "https://post-trash.com/news?format=rss", "region": "US/Global DIY" },
+        { "name": "The Line of Best Fit", "url": "https://www.thelineofbestfit.com/rss", "region": "UK/Global" },
+        { "name": "Clash Music", "url": "https://www.clashmusic.com/feed/", "region": "UK/Global" },
+        { "name": "Austin Town Hall", "url": "https://austintownhall.com/feed/", "region": "US Indie Pop" },
+        { "name": "Various Small Flames", "url": "https://varioussmallflames.co.uk/feed/", "region": "UK/Europe Indie" }
+      ]
+    },
+    "deezer": {
+      "enabled": true,
+      "genres": ["alternative", "indie rock"]
+    },
+    "youtube": {
+      "enabled": true
+    },
+    "soundcloud": {
+      "enabled": true
+    }
+  }
+}

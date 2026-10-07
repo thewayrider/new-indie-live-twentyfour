@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Secrets & Local credentials
+configs/secrets.json
+.env
+
+# SQLite Database & Storage (Local to each PC to avoid merge conflicts)
+data/*.sqlite
+data/*.sqlite-wal
+data/*.sqlite-shm
+data/*.db
+
+# Logs & temp files
+*.log
+npm-debug.log*
+.DS_Store

@@ -1,0 +1,26 @@
+{
+  "name": "new-indie-live-twentyfour",
+  "version": "1.0.0",
+  "description": "Autonomous 24-Hour Open-Web Radar for Real-Time Indie Rock Releases",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dry-run": "node src/index.js --dry-run",
+    "start:us": "node src/index.js --us",
+    "dry-run:us": "node src/index.js --us --dry-run",
+    "stats": "node src/index.js --stats"
+  },
+  "keywords": [
+    "music-discovery",
+    "indie-rock",
+    "crawler",
+    "real-time",
+    "autonomous-agent"
+  ],
+  "author": "Antigravity Agent",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "nodemailer": "^6.9.14"
+  }
+}
