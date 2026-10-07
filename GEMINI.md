@@ -60,8 +60,33 @@ Every release candidate must conform strictly to the **`(Artist Name) — (Song 
 
 ---
 
-## 5. Future Roadmap: Fleet Command Center & Android Mobile App
-- **Unified Control Dashboard**: Central web UI and REST API bridging `live-music-search-agent` (weekly) and `new-indie-live-twentyfour` (daily).
-- **1-Click On-Demand Execution**: Trigger single crawlers or entire radars on demand without opening the IDE.
-- **Android App Integration**: Connect triggers and status directly into `live-music-crawler-monitor-android`.
+## 5. Unified Fleet Command Center & Multi-Device Architecture
+
+- **Backend Daemon (`src/server.js`)**:
+  - Runs Express on port `4000` listening on `0.0.0.0` with CORS enabled for local LAN and mobile bridge access (`live-music-crawler-monitor-android`).
+  - Child process manager (`src/services/fleetManager.js`) orchestrates 1-click execution, circular log streaming (250 lines), and process termination.
+- **Frontend Dashboard (`public/`)**:
+  - Dark-mode telemetry deck displaying Master SQLite KPIs, active radar service cards, live slide-out terminal logs, and recent discoveries feed.
+- **Dedicated App Mode Launcher (`launch_command_center.bat`)**:
+  - Launches Microsoft Edge in standalone App Window Mode (`msedge --app=http://localhost:4000 --window-size=1300,880 --disable-extensions`).
+  - **Strict Sandbox Mandate**: Always pass `--disable-extensions` so third-party browser add-ons (like Norton Safe Web, ad injectors, etc.) are completely suppressed from the Command Center window.
+- **Scope & Sibling Projects**:
+  - Strictly limited to `new-indie-live-twentyfour` (daily radars) and `live-music-search-agent` (weekly crawler fleet). Do not auto-register separate experimental projects (like `PulseKL`) unless explicitly requested.
+
+---
+
+## 6. Architecture & Upcoming Scraper Integration Roadmap
+
+| System | Role & Cadence | Data Function |
+| :--- | :--- | :--- |
+| **`live-music-search-agent`** | **The Weekly Heavyweight Fleet**<br>Comprehensive multi-source crawl across broader music platforms. | Supplies the weekly bulk catalog for the Android app. Target for scraper cleanup & EveryNoise rule porting. |
+| **`new-indie-live-twentyfour`** | **The 24/7 Rapid Response Radar**<br>Scans daily at 06:30 AM & 07:00 AM for tracks released in the last 24–36 hours. | Feeds daily breaking discoveries directly into the master catalog and sends instant morning alerts. |
+| **`master_catalog.sqlite`** | **The Shared Brain** | Unifies tracks discovered by **both** daily and weekly crawlers, tracking heat scores and multi-source consensus. |
+| **Android App** | **Mobile Monitor & Playback** | Reads the unified catalog from the API for mobile inspection and streaming. |
+
+### Immediate Next Priority (For Next Session):
+1. Review and evaluate existing scraper files in `C:\Users\kimra\Desktop\Projects\live-music-search-agent`.
+2. Port the EveryNoise purity filter, foreign language blocker, and title-casing rules from `normalizer.js` into the weekly scrapers.
+3. Integrate weekly scraper outputs with the shared `data/master_catalog.sqlite` consensus engine.
+
 
