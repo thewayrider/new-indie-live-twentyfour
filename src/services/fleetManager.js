@@ -90,10 +90,10 @@ class FleetManager {
 
     for (const cand of candidatePaths) {
       if (fs.existsSync(cand.path)) {
-        this.services[cand.id] = {
-          id: cand.id,
+        this.services['weekly-crawler'] = {
+          id: 'weekly-crawler',
           name: cand.name,
-          description: `Sibling crawler project located at ${cand.path}`,
+          description: `Comprehensive 11-crawler fleet (Bandcamp, AMRAP, Triple J, ListenBrainz, MusicBrainz, etc.)`,
           market: 'WEEKLY',
           schedule: 'Weekly Scheduled',
           command: 'npm',
@@ -106,6 +106,7 @@ class FleetManager {
           lastDurationMs: null,
           logs: []
         };
+        break;
       }
     }
   }
