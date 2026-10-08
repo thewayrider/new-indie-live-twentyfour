@@ -6,10 +6,8 @@ configs/secrets.json
 .env
 
 # SQLite Database & Storage (Local to each PC to avoid merge conflicts)
-data/*.sqlite
-data/*.sqlite-wal
-data/*.sqlite-shm
-data/*.db
+data/
+data/*
 
 # Logs & temp files
 *.log
