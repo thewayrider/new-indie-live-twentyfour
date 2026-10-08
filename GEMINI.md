@@ -75,18 +75,22 @@ Every release candidate must conform strictly to the **`(Artist Name) — (Song 
 
 ---
 
-## 6. Architecture & Upcoming Scraper Integration Roadmap
+## 6. Architecture & Unified Fleet Integration (COMPLETED)
 
 | System | Role & Cadence | Data Function |
 | :--- | :--- | :--- |
-| **`live-music-search-agent`** | **The Weekly Heavyweight Fleet**<br>Comprehensive multi-source crawl across broader music platforms. | Supplies the weekly bulk catalog for the Android app. Target for scraper cleanup & EveryNoise rule porting. |
+| **`live-music-search-agent`** | **The Weekly Heavyweight Fleet**<br>Comprehensive multi-source crawl across broader music platforms. | Supplies the weekly bulk catalog for the Android app. Enforces EveryNoise purity filter via `diffEngine.js`. |
 | **`new-indie-live-twentyfour`** | **The 24/7 Rapid Response Radar**<br>Scans daily at 06:30 AM & 07:00 AM for tracks released in the last 24–36 hours. | Feeds daily breaking discoveries directly into the master catalog and sends instant morning alerts. |
 | **`master_catalog.sqlite`** | **The Shared Brain** | Unifies tracks discovered by **both** daily and weekly crawlers, tracking heat scores and multi-source consensus. |
 | **Android App** | **Mobile Monitor & Playback** | Reads the unified catalog from the API for mobile inspection and streaming. |
 
-### Immediate Next Priority (For Next Session):
-1. Review and evaluate existing scraper files in `C:\Users\kimra\Desktop\Projects\live-music-search-agent`.
-2. Port the EveryNoise purity filter, foreign language blocker, and title-casing rules from `normalizer.js` into the weekly scrapers.
-3. Integrate weekly scraper outputs with the shared `data/master_catalog.sqlite` consensus engine.
+### Completed Milestones:
+1. ✅ **EveryNoise Pure Track Filter Ported**: All 11 crawlers in `live-music-search-agent` pass through `src/utils/diffEngine.js` with Title-casing, character whitelist, length limits, and foreign language shields.
+2. ✅ **Unified Master SQLite Database**: All 1,169 historical records and 1,265 sightings from `live-music-search-agent` merged into `data/master_catalog.sqlite`.
+3. ✅ **Shared Consensus Engine**: Both fleets now read and write to `master_catalog.sqlite`:
+   - **Total Unique Songs**: 1,260
+   - **Total Sightings**: 1,364
+   - **Consensus Multi-Source Hits**: 89
+
 
 
