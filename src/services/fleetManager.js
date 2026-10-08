@@ -84,7 +84,8 @@ class FleetManager {
 
   _detectSiblingFleets() {
     const candidatePaths = [
-      { id: 'weekly-crawler', name: 'Weekly Music Search Fleet', path: path.join(this.parentDir, 'live-music-search-agent') }
+      { id: 'weekly-crawler', name: 'Weekly Music Search Fleet', path: path.join(this.parentDir, 'Music Crawler Stuff/live-music-search-agent') },
+      { id: 'weekly-crawler-alt', name: 'Weekly Music Search Fleet', path: path.join(this.parentDir, 'live-music-search-agent') }
     ];
 
     for (const cand of candidatePaths) {
